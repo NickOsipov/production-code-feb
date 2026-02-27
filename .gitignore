@@ -1,0 +1,11 @@
+venv
+.venv
+.coverage
+__pycache__
+.env
+.pytest_cache
+.ipynb_checkpoints
+.ruff_cache
+.mypy_cache
+*.joblib
+*.log
