@@ -8,3 +8,6 @@ import os
 
 MODEL_NAME = "random_forest.joblib"
 MODEL_PATH = os.path.join("models", MODEL_NAME)
+
+IRIS_CLASSES = ["setosa", "versicolor", "virginica"]
+FEATURE_NAMES = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
