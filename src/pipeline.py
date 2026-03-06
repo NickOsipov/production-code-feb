@@ -21,7 +21,7 @@ def main():
     Main function to execute the machine learning pipeline.
     """
 
-    logger.info("Starting the machine learning pipeline...")
+    logger.info("Init the machine learning pipeline...")
 
     # Load and preprocess the data
     logger.info("Preprocessing the data...")
