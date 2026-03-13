@@ -7,6 +7,7 @@ from loguru import logger
 import pandas as pd
 
 from config.variables import MODEL_PATH, IRIS_CLASSES, FEATURE_NAMES
+from config.database import ENGINE
 from src.inference import load_model, predict
 
 
@@ -42,6 +43,29 @@ def prediction():
         logger.info(f"Prediction result: {pred}")
         predicted_class = IRIS_CLASSES[pred[0]]
         logger.info(f"Predicted class: {predicted_class}")
+
+        q = f"""
+        INSERT INTO predictions (
+            sepal_length, 
+            sepal_width, 
+            petal_length, 
+            petal_width, 
+            predicted_class
+        )
+        VALUES (
+            {df['sepal_length'].iloc[0]}, 
+            {df['sepal_width'].iloc[0]}, 
+            {df['petal_length'].iloc[0]}, 
+            {df['petal_width'].iloc[0]}, 
+            '{predicted_class}'
+        )
+        """
+
+        logger.info("Prediction Store process started.")
+        with ENGINE.connect() as conn:
+            conn.execute(q)
+            logger.info("Prediction stored in the database successfully.")
+
         logger.info("Sending prediction response!")
         return jsonify({"predicted_class": predicted_class})
     except Exception as e:
