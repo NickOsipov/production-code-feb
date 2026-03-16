@@ -26,6 +26,8 @@ services:
       - "5000:5000"
     container_name: prod-code
     image: prod-code:latest
+    depends_on:
+      - mysql-db
 
 volumes:
   mysql-data:
