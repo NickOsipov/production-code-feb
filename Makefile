@@ -9,6 +9,10 @@ stop-jupyter:
 
 build:
 	docker build -t prod-code:latest -f Dockerfile .
+	
+push:
+	docker tag prod-code:latest nickosipov/prod-code:latest
+	docker push nickosipov/prod-code:latest
 
 run:
 	docker run --rm -p 5000:5000 --name prod-code prod-code:latest
