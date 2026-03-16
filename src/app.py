@@ -23,7 +23,7 @@ def healthcheck():
     """
     Healthcheck endpoint.
     """
-    return jsonify({"msg": "ok"})
+    return jsonify({"status": "ok"})
 
 
 @app.route("/predict", methods=["POST"])
