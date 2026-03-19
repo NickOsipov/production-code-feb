@@ -1,15 +1,15 @@
 # flask app docker-compose.yml
 services:
-  mysql-db:
-    image: mysql:5.7
-    container_name: mysql-db
-    env_file:
-      - .env
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-      - ./migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
+  # mysql-db:
+  #   image: mysql:5.7
+  #   container_name: mysql-db
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - mysql-data:/var/lib/mysql
+  #     - ./migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   prod-code:
     env_file:
@@ -21,10 +21,30 @@ services:
     container_name: prod-code
     image: nickosipov/prod-code:latest
 
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: clickhouse
+    environment:
+      - CLICKHOUSE_DB=default
+      - CLICKHOUSE_USER=default
+      - CLICKHOUSE_PASSWORD=password
+      - CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1
+    networks:
+      - clickhouse-network
+    ports:
+      - 8123:8123 # http
+      - 9100:9000 # tcp
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+      - ./migrations/clickhouse_init.sql:/docker-entrypoint-initdb.d/clickhouse_init.sql
+
 
 volumes:
   mysql-data:
+  clickhouse-data:
 
 networks:
   default:
     name: prod-code-network
+  clickhouse-network:
+    name: clickhouse-network
