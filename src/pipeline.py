@@ -12,6 +12,7 @@ from src.evaluate import evaluate_model
 from src.inference import load_model, predict
 from src.preprocessing import preprocess_data
 from src.train import training
+from src.object_storage import upload_model_to_s3
 
 PARAMS = {"n_estimators": 100, "max_depth": 5, "random_state": 42}
 
@@ -30,6 +31,11 @@ def main():
     # Train the model and save it
     logger.info("Training the model...")
     training(X_train, y_train, PARAMS, MODEL_PATH)
+
+    # Upload the trained model to S3
+    logger.info("Uploading the trained model to S3...")
+    upload_model_to_s3(MODEL_PATH, MODEL_PATH)
+    logger.info("Model uploaded to S3 successfully.")
 
     # Load the trained model
     logger.info("Loading the trained model...")
